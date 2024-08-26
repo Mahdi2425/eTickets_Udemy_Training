@@ -1,0 +1,53 @@
+﻿@model Actor
+
+@{
+    ViewData["Title"] = "Details for Actors";
+}
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h1 class="text-center">Details for @Model.FullName</h1>
+        </p>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <hr style="margin-left:20px" />
+                <div class="form-check text-center">
+                    <img id="ProfilePicturePreview" class="border_info rounded-circle" style="max-width:150px" />
+                </div>
+                <div class="form-check">
+                    <label asp-for="PictureProfileURL"></label>
+                    <input asp-for="PictureProfileURL" type="text" class="form-control" id="ImageURLInput" readonly />
+                    <span asp-validation-for="PictureProfileURL" class="text-danger"></span>
+                </div>
+                <div class="form-check">
+                    <label asp-for="FullName"></label>
+                    <input asp-for="FullName" type="text" class="form-control" readonly/>
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-check">
+                    <label asp-for="Bio"></label>
+                    <input asp-for="Bio" type="text" class="form-control" readonly/>
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+                <hr style="margin-left:20px" />
+                <div>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Update" asp-controller="Actors" asp-route-id="@Model.Id" class="btn btn-outline-primary float-end">Update</a>
+                    }
+                    <a asp-action="index" class="btn btn-outline-secondary" style="margin-left:20px">Show all</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            output.src = $('#ImageURLInput').val();
+        });
+    </script>
+}
+

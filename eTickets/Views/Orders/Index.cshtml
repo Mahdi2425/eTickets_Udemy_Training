@@ -1,0 +1,53 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "All orders";
+}
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <p>
+            <h4 class="text-center">
+                List Of All Your Orders 
+            </h4>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>OrderId</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <th>User</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@item.Id</td>
+                        <td class="align-middle justify-content-between">
+                            <ul style="list-style-type:none">
+                                @foreach (var temp in item.OrderItems)
+                                {
+                                    <li>
+                                        <div class="alert alert-info" role="alert">
+                                            <span class="badge bg-success">@temp.Amount</span>[@temp.Price.ToString("c")] - @temp.Movie.Name
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                        <td class="align-middle">
+                            @item.OrderItems.Select(m => m.Movie.price * m.Amount).Sum().ToString("c")
+                        </td>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <td class="align-middle"> @item.User.FullName </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

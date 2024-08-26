@@ -1,0 +1,60 @@
+﻿@using eTickets.Data.ViewModels
+@model RegisterVM
+
+@{
+    ViewData["Title"] = "Sign in to your account";
+}
+<div class="row">
+    <div class="col-md-6 offset-3">
+        <div class="text-center">
+            <h4>
+                Sign up for a new account
+            </h4>
+        </div>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="col-md-12 alert alert-danger">
+                <span>
+                    <b>Sorry!</b> - @TempData["Error"]
+                </span>
+            </div>
+        }
+
+        <div class="col-md-8 offset-2">
+            <form asp-action="Register">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div>
+                    <label asp-for="Fullname"></label>
+                    <input asp-for="Fullname" class="form-control" />
+                    <span asp-validation-for="Fullname" class="text-danger"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Emailadrress"></label>
+                    <input asp-for="Emailadrress" class="form-control" />
+                    <span asp-validation-for="Emailadrress" class="text-danger"></span>
+                </div>
+                
+                <div>
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="ConfrimPassword"></label>
+                    <input asp-for="ConfrimPassword" class="form-control" />
+                    <span asp-validation-for="ConfrimPassword" class="text-danger"></span>
+                </div>
+
+                <hr />
+                <div>
+                    <input class="btn btn-outline-success" style="float:right" type="submit" name="Signup" value="Sign up" />
+                    <a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Movies">Cancle</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

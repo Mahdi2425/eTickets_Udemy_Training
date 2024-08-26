@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Movie>
+@{
+    ViewData["Title"] = "List of Movies";
+} 
+<div class="row">
+    @foreach (var movie in Model)
+    {
+        <div class="col-md-4 col-xs-6 border-primary mb-3">
+            <div class="card mb-3" style="max-width:540px;">
+                <div class="row g-0">
+                    <div class="col-md-12">
+                        <div class="card-header text-white bg-danger">
+                            <p class="card-text">
+                                <h5 class="card-title">
+                                    @movie.Name
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
+                                        <a class="text-white align-items-center float-end" asp-action="Update" asp-controller="Movies" asp-route-id="@movie.Id"><i class="bi bi-pencil-square"></i></a>
+                                    }
+                                </h5>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <img src=@movie.ImageMovieURL alt="@movie.Name" width="100%" />
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <p class="card-text">@movie.Description</p>
+                            <p class="card-text"><b>Cinema : </b>@movie.Cinema.Name</p>
+                            <p class="card-text"><b>Category : </b>@movie.movieCategory</p>
+                            <p class="card-text"><b>StartDate : </b>@movie.StartDate.ToString("MMM dd")</p>
+                            <p class="card-text"><b>EndDate : </b>@movie.EndDate.ToString("MMM dd")</p>
+                            <p class="card-text"><b>Status : </b>
+                                @if (DateTime.Now > movie.StartDate && DateTime.Now < movie.EndDate)
+                                {
+                                    <span class="badge bg-success text-white">AVAILABLE</span>
+                                }
+                                @if(DateTime.Now > movie.EndDate)
+                                {
+                                    <span class="badge bg-danger text-white">EXPIRED</span>
+                                }
+                                @if (DateTime.Now < movie.StartDate)
+                                {
+                                    <span class="badge bg-primary text-white">UPCOMING</span>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="card-footer">
+                            <p class="card-text">
+                                <a class="btn btn-outline-primary float-end m-2 "asp-action="Details" asp-route-id="@movie.Id"><i class="bi bi-eye-fill"> Show Details</i></a>
+                                <a class="btn btn-success text-white m-2 " asp-action="AddToShoppingCart" asp-controller="Orders" asp-route-id="@movie.Id"><i class="bi bi-cart-plus"> Add to Cart (@movie.price.ToString("c"))</i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    @await Html.PartialAsync("_CreateItem", "Movies")
+}
+

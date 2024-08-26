@@ -1,0 +1,99 @@
+﻿@model NewMovieVM
+
+@using eTickets.Data;
+@using eTickets.Data.Enums;
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using System.Collections.Generic;
+@{
+    ViewData["Title"] = "Updating a Movie";
+}
+
+<div class="row text-center">
+    <p>Updating a Movie</p>
+</div>
+<div class="row">
+    <div class="col-md-8 offset-2">
+        <form asp-action="Update" asp-controller="Movies">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" type="text" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="StartDate"></label>
+                        <input asp-for="StartDate" type="date" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="EndDate"></label>
+                        <input asp-for="EndDate" type="date" class="form-control" />
+                        <span asp-validation-for="EndDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="ImageMovieURL"></label>
+                        <input asp-for="ImageMovieURL" class="form-control" id="ImageURLInput" />
+                        <span asp-validation-for="ImageMovieURL" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="price"></label>
+                        <input asp-for="price" type="number" class="form-control" />
+                        <span asp-validation-for="price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <label asp-for="CinemaId"></label>
+                        <select asp-for="CinemaId" class="form-control" asp-items="ViewBag.Cinemas"></select>
+                        <span asp-validation-for="CinemaId" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="movieCategory"></label>
+                        <select asp-for="movieCategory" class="form-control" asp-items="Html.GetEnumSelectList<MovieCategory>()"></select>
+                        <span asp-validation-for="movieCategory" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="ProducerId"></label>
+                        <select asp-for="ProducerId" class="form-control" asp-items="ViewBag.Producers"></select>
+                        <span asp-validation-for="ProducerId" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <label asp-for="ActorsIds"></label>
+                        <select asp-for="ActorsIds" class="form-control" multiple asp-items="ViewBag.Actors"></select>
+                        <span asp-validation-for="ActorsIds " class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-check">
+                        <label asp-for="Description"></label>
+                        <input asp-for="Description" class="form-control"></input>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-left:20px" />
+            <div class="col-md-4 offset-4 text-center">
+                <img id="ProfilePicturePreview" style="width:70%" />
+            </div>
+            <hr style="margin-left:20px" />
+            <div>
+                <input type="submit" name="Create&Add" value="Update" class="btn btn-outline-success float-end" />
+                <a asp-action="Index" class="btn btn-outline-secondary" style="margin-left:20px">Show all</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#ImageURLInput").on("change", function () {
+                var output = document.getElementById('ProfilePicturePreview');
+                var imageUrl = $(this).val();
+                output.src = imageUrl;
+            });
+        });
+    </script>
+}
